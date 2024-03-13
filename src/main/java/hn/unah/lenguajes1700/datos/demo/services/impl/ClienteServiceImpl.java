@@ -27,8 +27,8 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
-    public Cliente buscarClientePorDni(String dni) {
-        return this.clienteRepository.findById(dni).get();
+    public Optional<Cliente> buscarClientePorDni(String dni) {
+        return this.clienteRepository.findById(dni);
     }
 
     @Override
@@ -43,6 +43,18 @@ public class ClienteServiceImpl implements ClienteService{
         }
 
         return clienteActualizar;
+    }
+
+    @Override
+    public String eliminarCliente(String dni) {
+        Cliente clienteEliminar = this.clienteRepository.findById(dni).get();
+
+        if(null != clienteEliminar){
+            this.clienteRepository.delete(clienteEliminar);
+            return "Cliente eliminado";
+        }
+
+        return "No existe el cliente";
     }
     
 }

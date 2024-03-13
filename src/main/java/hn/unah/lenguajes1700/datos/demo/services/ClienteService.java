@@ -1,6 +1,8 @@
 package hn.unah.lenguajes1700.datos.demo.services;
 
 import java.util.List;
+import java.util.Optional;
+
 
 import hn.unah.lenguajes1700.datos.demo.entities.Cliente;
 
@@ -10,9 +12,10 @@ public interface ClienteService {
 
     public Cliente crearCliente(Cliente cliente);
 
-    public Cliente buscarClientePorDni(String dni);
+    public Optional<Cliente> buscarClientePorDni(String dni);
 
     public Cliente actualizarCliente(String dni, Cliente cliente);
 
+    public String eliminarCliente(String dni);
 
 }
