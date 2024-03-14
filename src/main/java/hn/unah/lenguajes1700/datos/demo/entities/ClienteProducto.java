@@ -2,6 +2,8 @@ package hn.unah.lenguajes1700.datos.demo.entities;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,14 +27,16 @@ public class ClienteProducto {
     private long numeroProducto;
     
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="dni", referencedColumnName = "dni")
     private Cliente cliente;    
 
     @ManyToOne
     @JoinColumn(name="codigotipoproducto", referencedColumnName = "codigotipoproducto")
-    private TipoProducto tipoProducto;
+    private TipoProducto tipoproducto;
 
+    @Column(name="fechaapertura")
     private LocalDate fechaApertura;
     
     private char estado;

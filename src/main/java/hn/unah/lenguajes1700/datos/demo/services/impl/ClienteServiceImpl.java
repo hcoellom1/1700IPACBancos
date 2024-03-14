@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import hn.unah.lenguajes1700.datos.demo.entities.Cliente;
+import hn.unah.lenguajes1700.datos.demo.entities.ClienteProducto;
+import hn.unah.lenguajes1700.datos.demo.repositories.ClienteProductoRepository;
 import hn.unah.lenguajes1700.datos.demo.repositories.ClienteRepository;
+import hn.unah.lenguajes1700.datos.demo.repositories.TipoProductoRepository;
 import hn.unah.lenguajes1700.datos.demo.services.ClienteService;
 
 @Service
@@ -15,6 +18,12 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Autowired
     private ClienteRepository clienteRepository;
+
+    @Autowired
+    private TipoProductoRepository tipoProductoRepository;
+
+    @Autowired
+    private ClienteProductoRepository clienteProductoRepository;
 
     @Override
     public List<Cliente> obtenerClientes() {
@@ -47,14 +56,37 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     public String eliminarCliente(String dni) {
-        Cliente clienteEliminar = this.clienteRepository.findById(dni).get();
 
-        if(null != clienteEliminar){
-            this.clienteRepository.delete(clienteEliminar);
+        if(this.clienteRepository.existsById(dni)){
+            this.clienteRepository.deleteById(dni);
             return "Cliente eliminado";
-        }
+        }        
 
         return "No existe el cliente";
+    }
+
+    @Override
+    public Cliente agregarProductoCliente(String dni, long codigoTipoProducto) {
+        if(this.clienteRepository.existsById(dni)){
+            Cliente clienteActualizar = this.clienteRepository.findById(dni).get();
+            if(this.tipoProductoRepository.existsById(codigoTipoProducto)){
+                ClienteProducto nvoClienteProducto = new ClienteProducto();
+                nvoClienteProducto.setEstado('A');
+                nvoClienteProducto.setSaldo(5000);
+                nvoClienteProducto.setCliente(this.clienteRepository.findById(dni).get());
+                nvoClienteProducto.setTipoproducto(this.tipoProductoRepository.findById(codigoTipoProducto).get());
+
+
+                clienteActualizar.getClienteProductos().add(nvoClienteProducto);
+                this.clienteProductoRepository.save(nvoClienteProducto);
+                return clienteActualizar;
+                /* 
+                this.clienteProductoRepository.save(nvoClienteProducto);
+                return nvoClienteProducto.getCliente();*/
+            }
+        }
+
+        return null;
     }
     
 }

@@ -57,4 +57,10 @@ public class ClienteController {
         return this.clienteServiceImpl.eliminarCliente(dni);
     }
 
+    @PutMapping("/cliente/agregarProducto")
+    public Cliente agregarProducto(@RequestParam(name = "dni") String dni, 
+                                   @RequestParam(name="codigoProducto") long codigoTipoProducto) {
+        return this.clienteServiceImpl.agregarProductoCliente(dni, codigoTipoProducto);        
+    }
+
 }

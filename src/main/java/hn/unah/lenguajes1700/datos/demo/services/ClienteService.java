@@ -18,4 +18,6 @@ public interface ClienteService {
 
     public String eliminarCliente(String dni);
 
+    public Cliente agregarProductoCliente(String dni, long codigoTipoProducto);
+
 }
