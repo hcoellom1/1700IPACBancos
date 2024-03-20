@@ -28,7 +28,7 @@ public class Cliente {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="iddireccion", referencedColumnName = "iddireccion")
-    private Direccion direccion;
+    private Direccion direccion; 
 
     @OneToMany(mappedBy = "cliente")    
     private List<ClienteProducto> clienteProductos;
